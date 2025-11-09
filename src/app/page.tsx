@@ -6,8 +6,6 @@ export default async function Home() {
 
     return (
         <div className="p-2">
-            <p>Вы вошли в аккаунт.</p>
-            <br />
             <pre className="text-xs bg-muted w-min p-2 rounded-sm border">
                 {JSON.stringify(data, null, 2)}
             </pre>
