@@ -1,0 +1,43 @@
+import { Tables } from "@/types/database";
+import { PenIcon, User2Icon } from "lucide-react";
+
+type Props = {
+  profile: Tables<"profiles">;
+};
+
+export function Header({ profile }: Props) {
+  return (
+    <section>
+      <div className="relative min-h-40 bg-muted">
+        <div className="absolute bottom-0 translate-y-1/2 w-full">
+          <div className="mx-3 flex flex-row items-center justify-between gap-2">
+            {/* Аватарка */}
+            <div className="size-20 bg-black text-white rounded-full border-8 border-background flex items-center justify-center">
+              {profile.full_name ? (
+                <span className="text-2xl font-bold">
+                  {profile.full_name?.[0]}
+                </span>
+              ) : (
+                <User2Icon />
+              )}
+            </div>
+
+            <div className="bg-background border-8 border-background rounded-full space-x-2">
+              <button className="p-3 bg-accent rounded-full text-sm font-medium">
+                <PenIcon size={15} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-12 mb-6 mx-6 space-y-3">
+        <div className="-space-y-2">
+          <h1 className="text-2xl font-semibold">{profile.full_name}</h1>
+          <span className="text-muted-foreground text-xs">@username</span>
+        </div>
+        {profile.bio ? <p className="font-medium">{profile.bio}</p> : null}
+      </div>
+    </section>
+  );
+}
