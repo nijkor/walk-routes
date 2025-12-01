@@ -20,8 +20,6 @@ import {
 import { Input } from "@/components/ui/input"
 import { Spinner } from "@/components/ui/spinner"
 
-import { toast } from "sonner"
-
 import { login } from "@/actions/auth"
 
 export function LoginForm({
@@ -34,7 +32,7 @@ export function LoginForm({
     console.log(state)
 
     if (state) {
-      toast.error(state?.error)
+      alert(state.error);
     }
   }, [state])
 

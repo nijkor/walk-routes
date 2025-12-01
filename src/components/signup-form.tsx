@@ -30,11 +30,11 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
 
   useEffect(() => {
     if (!state?.ok && state?.error) {
-      toast.error(state.error);
+      alert(state.error);
     }
 
     if (state?.ok) {
-      toast.success('Отправили Вам на почту письмо с сылкой для подтверждения аккаунта. Если не нашли письмо, то проверьте папку "Спам"');
+      alert('Отправили Вам на почту письмо с сылкой для подтверждения аккаунта. Если не нашли письмо, то проверьте папку "Спам"');
     }
   }, [state]);
 
