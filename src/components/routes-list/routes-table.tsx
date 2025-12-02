@@ -16,6 +16,7 @@ import {
   InfoIcon,
   MoreHorizontalIcon,
 } from "lucide-react";
+import { More } from "./more";
 
 type Props = {
   routes: (Pick<Tables<"routes">, "name" | "route_id" | "description"> & {
@@ -39,9 +40,8 @@ export function RoutesTable({ routes }: Props) {
               <InfoIcon />
               Подробнее
             </Button>
-            <Button size="icon" variant="outline">
-              <EllipsisVerticalIcon />
-            </Button>
+
+            <More routeId={route.route_id} />
           </ItemFooter>
         </Item>
       ))}
