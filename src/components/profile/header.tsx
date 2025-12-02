@@ -11,7 +11,7 @@ type Props = {
 export function Header({ profile }: Props) {
   return (
     <section>
-      <div className="relative min-h-40 bg-muted">
+      <div className="relative min-h-40 bg-muted rounded-b-lg">
         <div className="absolute bottom-0 translate-y-1/2 w-full">
           <div className="mx-3 flex flex-row items-center justify-between gap-2">
             {/* Аватарка */}
