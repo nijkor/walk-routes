@@ -1,14 +1,28 @@
-import { createClient } from "@/lib/supabase/server"
+import { Button } from "@/components/ui/button";
 
-export default async function Home() {
-    const supabase = await createClient()
-    const { data } = await supabase.auth.getClaims()
+import { RoutesList } from "@/components/routes-list";
+import Link from "next/link";
+import { PlusIcon } from "lucide-react";
 
-    return (
-        <div className="p-2">
-            <pre className="text-xs bg-muted w-min p-2 rounded-sm border">
-                {JSON.stringify(data, null, 2)}
-            </pre>
-        </div>
-    )
+export default function HomePage() {
+  return (
+    <>
+      <div className="mx-4 mt-6 flex flex-row items-center justify-between">
+        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight text-balance">
+          Список маршрутов
+        </h1>
+
+        <Link href="/profile/new">
+          <Button
+            size="icon-sm"
+            variant="outline"
+            className="hover:-translate-y-1 focus:scale-125 duration-500 rounded-full"
+          >
+            <PlusIcon />
+          </Button>
+        </Link>
+      </div>
+      <RoutesList />
+    </>
+  );
 }
