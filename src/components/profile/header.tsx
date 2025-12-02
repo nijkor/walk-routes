@@ -1,5 +1,8 @@
+import { ProfileActions } from "./profile-actionts";
+
+import { User2Icon } from "lucide-react";
+
 import { Tables } from "@/types/database";
-import { PenIcon, User2Icon } from "lucide-react";
 
 type Props = {
   profile: Tables<"profiles">;
@@ -22,11 +25,7 @@ export function Header({ profile }: Props) {
               )}
             </div>
 
-            <div className="bg-background border-8 border-background rounded-full space-x-2">
-              <button className="p-3 bg-accent rounded-full text-sm font-medium">
-                <PenIcon size={15} />
-              </button>
-            </div>
+            <ProfileActions />
           </div>
         </div>
       </div>
