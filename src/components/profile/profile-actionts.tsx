@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 
 import {
   DropdownMenu,
@@ -10,7 +11,11 @@ import {
 
 import { EllipsisVerticalIcon, LogOutIcon, PenIcon } from "lucide-react";
 
+import { Logout } from "./logout";
+
 export function ProfileActions() {
+  const [logoutDialogOpen, setLogoutDialogOpen] = useState<boolean>(false);
+
   return (
     <div className="bg-background border-8 border-background rounded-full space-x-2">
       <DropdownMenu modal={false}>
@@ -26,15 +31,16 @@ export function ProfileActions() {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            onClick={() => {}}
+            onClick={() => setLogoutDialogOpen(true)}
             variant="destructive"
-            className="pr-10"
           >
             <LogOutIcon />
             Выйти
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      <Logout open={logoutDialogOpen} setOpen={setLogoutDialogOpen} />
     </div>
   );
 }
