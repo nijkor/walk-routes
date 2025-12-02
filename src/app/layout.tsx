@@ -1,10 +1,8 @@
-import {
-  Geist,
-  Geist_Mono
-} from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import { Toaster } from "sonner";
+import { Wrapper } from "@/components/layout/wrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,12 +20,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ru">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Toaster />
-        {children}
+        <Wrapper>
+          <Toaster />
+          {children}
+        </Wrapper>
       </body>
     </html>
   );
