@@ -35,6 +35,74 @@ export type Database = {
         }
         Relationships: []
       }
+      routes: {
+        Row: {
+          description: string | null
+          name: string
+          route_id: string
+          user_id: number
+        }
+        Insert: {
+          description?: string | null
+          name: string
+          route_id?: string
+          user_id: number
+        }
+        Update: {
+          description?: string | null
+          name?: string
+          route_id?: string
+          user_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "routes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["profile_id"]
+          },
+        ]
+      }
+      routes_ratings: {
+        Row: {
+          created_at: string
+          rating: number
+          rating_id: string
+          route_id: string
+          user_id: number
+        }
+        Insert: {
+          created_at?: string
+          rating: number
+          rating_id?: string
+          route_id: string
+          user_id: number
+        }
+        Update: {
+          created_at?: string
+          rating?: number
+          rating_id?: string
+          route_id?: string
+          user_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "routes_rating_route_id_fkey"
+            columns: ["route_id"]
+            isOneToOne: false
+            referencedRelation: "routes"
+            referencedColumns: ["route_id"]
+          },
+          {
+            foreignKeyName: "routes_rating_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["profile_id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

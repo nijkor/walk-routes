@@ -1,14 +1,12 @@
-import { createClient } from "@/lib/supabase/server"
+import { RoutesList } from "@/components/routes-list";
 
-export default async function Home() {
-    const supabase = await createClient()
-    const { data } = await supabase.auth.getClaims()
-
-    return (
-        <div className="p-2">
-            <pre className="text-xs bg-muted w-min p-2 rounded-sm border">
-                {JSON.stringify(data, null, 2)}
-            </pre>
-        </div>
-    )
+export default function HomePage() {
+  return (
+    <>
+      <h1 className="mt-6 mx-2 scroll-m-20 text-4xl font-extrabold tracking-tight text-balance">
+        Список маршрутов
+      </h1>
+      <RoutesList />
+    </>
+  );
 }
