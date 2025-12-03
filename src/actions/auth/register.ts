@@ -11,6 +11,9 @@ const formSchema = z
     "confirm-password": z
       .string()
       .min(7, { error: "Пароль не должен быть короче 8 символов." }),
+    "full-name": z
+      .string()
+      .min(3, { error: "Имя не может быть короче 3 символов." }),
   })
   .refine((ctx) => ctx.password === ctx["confirm-password"], {
     error: "Необходимо ввести один и тот же пароль два раза.",
@@ -30,7 +33,7 @@ type Response = {
 
 export async function register(
   _: unknown,
-  formData: FormData
+  formData: FormData,
 ): Promise<Response> {
   const data = Object.fromEntries(formData.entries());
 
@@ -44,10 +47,18 @@ export async function register(
 
     // регистрируемся
     const { error: signUpError } = await supabase.auth.signUp({
-      email: data.email as string,
-      password: data.password as string,
+      email: parsedData.data.email,
+      password: parsedData.data.password,
+      options: {
+        data: {
+          name: parsedData.data["full-name"],
+        },
+      },
     });
-    if (signUpError) throw new Error(signUpError.message);
+    if (signUpError)
+      throw new Error(
+        "Не удалось зарегистрироваться из-за ошибки базы данных.",
+      );
 
     return {
       ok: true,
