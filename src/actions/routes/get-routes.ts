@@ -28,7 +28,7 @@ export async function getRoutes(filters: Filters) {
         route_id,
         name,
         description,
-        profile:profiles!routes_user_id_fkey(full_name),
+        profile:profiles!routes_user_id_fkey(full_name, profile_id),
         ratings:routes_ratings!routes_rating_route_id_fkey(
             user_id,
             created_at,
