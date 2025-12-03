@@ -12,6 +12,7 @@ import { Tables } from "@/types/database";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import {
+  ChevronRightCircleIcon,
   EllipsisVerticalIcon,
   InfoIcon,
   MoreHorizontalIcon,
@@ -36,9 +37,11 @@ export function RoutesTable({ routes }: Props) {
             <ItemDescription>{route.description}</ItemDescription>
           </ItemContent>
           <ItemFooter>
-            <Button variant="outline">
-              <InfoIcon />
-              Подробнее
+            <Button variant="outline" className="rounded-full px-3" asChild>
+              <Link href={`/route/${route.route_id}`}>
+                Подробнее
+                <ChevronRightCircleIcon />
+              </Link>
             </Button>
 
             <More routeId={route.route_id} />
