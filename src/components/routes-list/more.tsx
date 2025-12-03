@@ -23,6 +23,7 @@ import {
   ItemMedia,
   ItemTitle,
 } from "@/components/ui/item";
+import { Separator } from "@/components/ui/separator";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -32,7 +33,6 @@ import {
   ShareIcon,
   StarIcon,
 } from "lucide-react";
-import { Separator } from "../ui/separator";
 
 export function More({ routeId }: { routeId: string }) {
   const isMobile = useIsMobile();
@@ -41,7 +41,7 @@ export function More({ routeId }: { routeId: string }) {
     return (
       <Drawer>
         <DrawerTrigger asChild>
-          <Button size="icon" variant="outline">
+          <Button size="icon-sm" variant="outline">
             <EllipsisVerticalIcon />
           </Button>
         </DrawerTrigger>
