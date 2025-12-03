@@ -23,13 +23,13 @@ export default function Error({
   }, [error]);
 
   return (
-    <Empty className="border border-destructive bg-destructive/30">
+    <Empty className="mt-2 mx-4 border">
       <EmptyHeader>
         <EmptyMedia variant="icon">
           <AlertCircleIcon />
         </EmptyMedia>
         <EmptyTitle>На странице произошла ошибка</EmptyTitle>
-        <EmptyDescription>{error.message}</EmptyDescription>
+        <EmptyDescription>Попробуйте вернуться позднее.</EmptyDescription>
       </EmptyHeader>
     </Empty>
   );
