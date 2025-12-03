@@ -10,6 +10,7 @@ import {
   Settings2Icon,
   User2Icon,
 } from "lucide-react";
+import { Others } from "./others";
 
 export function BottomNavigation() {
   const pathname = usePathname();
@@ -32,9 +33,7 @@ export function BottomNavigation() {
         <Button variant="ghost" size="icon-lg">
           <Settings2Icon />
         </Button>
-        <Button variant="ghost" size="icon-lg">
-          <EllipsisVerticalIcon />
-        </Button>
+        <Others />
       </div>
     </div>
   );
