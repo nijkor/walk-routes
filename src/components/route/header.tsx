@@ -28,7 +28,7 @@ export function Header({ info }: Props) {
         <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">
           {info.name}
         </h2>
-        <p className="leading-7 not-first:mt-6">{info.description}</p>
+        <p className="leading-7 not-first:mt-1">{info.description}</p>
 
         <button className="bg-muted/30 hover:bg-muted border-4 border-muted p-1 rounded-full transition-all">
           <Link href={`/user/${info.profile.profile_id}`}>
