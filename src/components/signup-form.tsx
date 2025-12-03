@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useActionState, useEffect } from "react";
 
 import Link from "next/link";
@@ -34,7 +34,9 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
     }
 
     if (state?.ok) {
-      alert('Отправили Вам на почту письмо с сылкой для подтверждения аккаунта. Если не нашли письмо, то проверьте папку "Спам"');
+      alert(
+        'Отправили Вам на почту письмо с сылкой для подтверждения аккаунта. Если не нашли письмо, то проверьте папку "Спам"',
+      );
     }
   }, [state]);
 
@@ -50,12 +52,13 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
         <form action={action}>
           <FieldGroup>
             <Field>
-              <FieldLabel htmlFor="name">Имя и фамилия</FieldLabel>
+              <FieldLabel htmlFor="full-name">Имя и фамилия</FieldLabel>
               <Input
-                id="name"
+                id="full-name"
+                name="full-name"
                 type="text"
                 placeholder="Василий Пупкин"
-                disabled
+                defaultValue={state?.fields["full-name"]}
               />
             </Field>
             <Field>
@@ -69,20 +72,14 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
                 required
               />
               <FieldDescription>
-                Почта будет использоваться для входа в аккаунт и для его верификации.
+                Почта будет использоваться для входа в аккаунт и для его
+                верификации.
               </FieldDescription>
             </Field>
             <Field>
               <FieldLabel htmlFor="password">Пароль</FieldLabel>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                required
-              />
-              <FieldDescription>
-                Не менее 8 символов.
-              </FieldDescription>
+              <Input id="password" name="password" type="password" required />
+              <FieldDescription>Не менее 8 символов.</FieldDescription>
             </Field>
             <Field>
               <FieldLabel htmlFor="confirm-password">

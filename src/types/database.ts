@@ -17,19 +17,19 @@ export type Database = {
       profiles: {
         Row: {
           bio: string | null
-          full_name: string | null
+          full_name: string
           profile_id: number
           user_id: string
         }
         Insert: {
           bio?: string | null
-          full_name?: string | null
+          full_name: string
           profile_id?: number
           user_id: string
         }
         Update: {
           bio?: string | null
-          full_name?: string | null
+          full_name?: string
           profile_id?: number
           user_id?: string
         }
