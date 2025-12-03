@@ -5,7 +5,7 @@ export function Rating({ rating }: { rating: number }) {
     return (
       <div className="flex flex-row justify-between items-center">
         <span className="text-xs text-muted-foreground">
-          средняя оценка: {rating}
+          средняя оценка: {rating.toFixed(2)}
         </span>
       </div>
     );
