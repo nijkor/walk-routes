@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,10 +13,15 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { toast } from "sonner";
+import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
 
 // компоненты формы
 import { RouteConstructor } from "./route-counstructor";
+
+import { createRoute } from "@/actions/routes";
+import { SaveIcon } from "lucide-react";
 
 type RouteType = "pedestrian" | "bicycle";
 
@@ -26,6 +31,26 @@ export function NewRouteForm() {
   const [description, setDescription] = useState<string>("");
   const [type, setType] = useState<RouteType>("pedestrian");
   const [points, setPoints] = useState<number[][]>([]);
+
+  const [isPending, startTransition] = useTransition();
+
+  const handleForm = () => {
+    startTransition(async () => {
+      const res = await createRoute({
+        name,
+        description,
+        type,
+        points,
+      });
+
+      if (!res.ok) {
+        toast(res.error);
+        return;
+      }
+
+      toast.success("Маршрут успешно сохранен!");
+    });
+  };
 
   const handleTypeChange = (val: string) => setType(val as RouteType);
 
@@ -94,25 +119,15 @@ export function NewRouteForm() {
 
       <Field>
         <Button
+          onClick={handleForm}
           variant="outline"
           className="hover:-translate-y-1 focus:scale-125 sm:focus:scale-100 sm:active:scale-125 duration-500 rounded-full"
+          disabled={isPending}
         >
-          Отправить
+          {isPending ? <Spinner /> : <SaveIcon />}
+          Сохранить
         </Button>
       </Field>
-
-      <pre>
-        {JSON.stringify(
-          {
-            name,
-            description,
-            type,
-            points,
-          },
-          null,
-          2,
-        )}
-      </pre>
     </>
   );
 }
