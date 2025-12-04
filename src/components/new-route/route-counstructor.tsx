@@ -1,6 +1,6 @@
 "use client";
 
-import { Activity, useState } from "react";
+import { Activity, type Dispatch, type SetStateAction, useState } from "react";
 
 // яндекс карты
 import { YMaps, Map, Polyline, Placemark } from "@iminside/react-yandex-maps";
@@ -11,9 +11,12 @@ import { Button } from "@/components/ui/button";
 
 import { Delete, Trash2Icon } from "lucide-react";
 
-export function RouteConstructor() {
-  const [points, setPoints] = useState<number[][]>([]);
+type Props = {
+  points: number[][];
+  setPoints: Dispatch<SetStateAction<number[][]>>;
+};
 
+export function RouteConstructor({ points, setPoints }: Props) {
   const handleMapClick = (e: ymaps.MapEvent) => {
     const coords: number[] = e.get("coords");
     setPoints((prev) => [...prev, coords]);
