@@ -39,19 +39,25 @@ export type Database = {
         Row: {
           description: string | null
           name: string
+          points: Json
           route_id: string
+          type: Database["public"]["Enums"]["route_type"]
           user_id: number
         }
         Insert: {
           description?: string | null
           name: string
+          points: Json
           route_id?: string
+          type?: Database["public"]["Enums"]["route_type"]
           user_id: number
         }
         Update: {
           description?: string | null
           name?: string
+          points?: Json
           route_id?: string
+          type?: Database["public"]["Enums"]["route_type"]
           user_id?: number
         }
         Relationships: [
@@ -61,6 +67,45 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["profile_id"]
+          },
+        ]
+      }
+      routes_moderation_history: {
+        Row: {
+          happened_at: string
+          moderator_id: number | null
+          record_id: string
+          route_id: string
+          status: Database["public"]["Enums"]["route_status"]
+        }
+        Insert: {
+          happened_at?: string
+          moderator_id?: number | null
+          record_id?: string
+          route_id: string
+          status?: Database["public"]["Enums"]["route_status"]
+        }
+        Update: {
+          happened_at?: string
+          moderator_id?: number | null
+          record_id?: string
+          route_id?: string
+          status?: Database["public"]["Enums"]["route_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "routes_moderation_history_moderator_id_fkey"
+            columns: ["moderator_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "routes_moderation_history_route_id_fkey"
+            columns: ["route_id"]
+            isOneToOne: false
+            referencedRelation: "routes"
+            referencedColumns: ["route_id"]
           },
         ]
       }
@@ -111,7 +156,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      route_status: "uploaded" | "published" | "rejected" | "deleted"
+      route_type: "bicycle" | "pedestrian"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -238,6 +284,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      route_status: ["uploaded", "published", "rejected", "deleted"],
+      route_type: ["bicycle", "pedestrian"],
+    },
   },
 } as const
