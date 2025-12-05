@@ -1,47 +1,52 @@
+"use client";
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 
-import { Rating } from "./rating";
+import { CameraIcon, MapIcon } from "lucide-react";
 
-import type { Tables } from "@/types/database";
-import Link from "next/link";
+// Части хедера
+import { Info } from "./info";
+import { Map } from "./map";
 
-type Props = {
-  info: Pick<Tables<"routes">, "name" | "description"> & {
-    ratings: Pick<
-      Tables<"routes_ratings">,
-      "user_id" | "rating" | "created_at"
-    >[];
-    profile: Pick<Tables<"profiles">, "profile_id" | "full_name">;
-  };
-};
+export function Header() {
+  const [showMap, setShowMap] = useState<boolean>(false);
 
-export function Header({ info }: Props) {
-  // средняя оценка
-  const averageRating = info.ratings.length
-    ? info.ratings.reduce((sum, item) => sum + item.rating, 0) /
-      info.ratings.length
-    : 0;
+  const toggleMap = () => setShowMap((prev) => !prev);
 
   return (
-    <div className="absolute bottom-0 w-full bg-linear-to-t from-background from-20% to-background/0">
-      <div className="px-2 flex flex-col gap-3">
-        <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">
-          {info.name}
-        </h2>
-        <p className="leading-7 not-first:mt-1">{info.description}</p>
+    <div className="relative w-full h-160 rounded-t-4xl overflow-hidden">
+      <Button
+        className="z-50 absolute top-3.5 right-3.5 rounded-full px-4"
+        size="sm"
+        onClick={toggleMap}
+      >
+        {!showMap ? (
+          <>
+            <MapIcon />
+            показать карту
+          </>
+        ) : (
+          <>
+            <CameraIcon />
+            показать фотографии
+          </>
+        )}
+      </Button>
 
-        <button className="bg-muted/30 hover:bg-muted border-4 border-muted p-1 rounded-full transition-all">
-          <Link href={`/user/${info.profile.profile_id}`}>
-            <div className="w-full flex flex-row items-center gap-x-3">
-              <div className="size-8 rounded-full bg-foreground" />
+      {showMap && (
+        <>
+          <Map />
+          <div className="w-full h-full flex justify-center items-center">
+            <Spinner />
+          </div>
+        </>
+      )}
 
-              <span className="font-medium">{info.profile.full_name}</span>
-            </div>
-          </Link>
-        </button>
+      <div className="w-full h-full bg-muted" />
 
-        <Rating rating={averageRating} />
-      </div>
+      <Info />
     </div>
   );
 }

@@ -6,10 +6,11 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
-import { FullscreenIcon, XIcon } from "lucide-react";
+import { XIcon } from "lucide-react";
+
+import { RouteProvider } from "@/contexts/route-context";
 
 // части страницы
 import { Header } from "./header";
@@ -34,26 +35,11 @@ export async function Route({ routeId }: { routeId: string }) {
   const route = res.data![0];
 
   return (
-    <section className="space-y-3">
-      <div className="relative w-full h-100 @md:h-70 bg-muted rounded-4xl">
-        <Button
-          className="absolute top-3.5 right-3.5 rounded-full px-4"
-          size="sm"
-        >
-          <FullscreenIcon />
-          развернуть карту
-        </Button>
-
-        <Header
-          info={{
-            name: route.name,
-            description: route.description,
-            ratings: route.ratings,
-            profile: route.profile,
-          }}
-        />
-      </div>
-      <Separator />
-    </section>
+    <RouteProvider value={route}>
+      <section className="space-y-3">
+        <Header />
+        <Separator />
+      </section>
+    </RouteProvider>
   );
 }
