@@ -19,18 +19,21 @@ export type Database = {
           bio: string | null
           full_name: string
           profile_id: number
+          roles: Database["public"]["Enums"]["user_roles"][]
           user_id: string
         }
         Insert: {
           bio?: string | null
           full_name: string
           profile_id?: number
+          roles: Database["public"]["Enums"]["user_roles"][]
           user_id: string
         }
         Update: {
           bio?: string | null
           full_name?: string
           profile_id?: number
+          roles?: Database["public"]["Enums"]["user_roles"][]
           user_id?: string
         }
         Relationships: []
@@ -158,6 +161,7 @@ export type Database = {
     Enums: {
       route_status: "uploaded" | "published" | "rejected" | "deleted"
       route_type: "bicycle" | "pedestrian"
+      user_roles: "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -287,6 +291,7 @@ export const Constants = {
     Enums: {
       route_status: ["uploaded", "published", "rejected", "deleted"],
       route_type: ["bicycle", "pedestrian"],
+      user_roles: ["admin"],
     },
   },
 } as const
