@@ -1,6 +1,7 @@
 "use server";
 import z from "zod";
 import { createClient } from "@/lib/supabase/server";
+import { RouteInfo } from "@/types/route-info";
 
 const filtersSchema = z.object({
   id: z.uuid("Введен некорректный формат идентификатора маршрута").optional(),
@@ -10,11 +11,17 @@ const filtersSchema = z.object({
 
 type Filters = z.infer<typeof filtersSchema>;
 
+type Response = {
+  ok: boolean;
+  data: RouteInfo[] | null;
+  error: string | null;
+}
+
 /**
  * Поиск по маршрутам в базе
  * @param filters Фильтры
  */
-export async function getRoutes(filters: Filters) {
+export async function getRoutes(filters: Filters): Promise<Response> {
   try {
     // валидация фильтров
     const validatedFilters = filtersSchema.safeParse(filters);
@@ -25,14 +32,12 @@ export async function getRoutes(filters: Filters) {
 
     // составляем запрос
     let query = supabase.from("routes").select(`
-        route_id,
-        name,
-        description,
+        *,
         profile:profiles!routes_user_id_fkey(full_name, profile_id),
         ratings:routes_ratings!routes_rating_route_id_fkey(
-            user_id,
-            created_at,
-            rating
+          route_id,
+          rating,
+          created_at
         )
     `);
 
@@ -47,8 +52,8 @@ export async function getRoutes(filters: Filters) {
       // показать только один
       query = query.limit(1);
 
-    const { data, error } = await query;
-    if (error)
+    const { data, error } = await query.overrideTypes<RouteInfo[]>();
+    if (error) 
       throw new Error(
         "Не удалось получить информацию о маршруте из-за ошибки базы данных.",
       );
@@ -56,10 +61,12 @@ export async function getRoutes(filters: Filters) {
     return {
       ok: true,
       data,
+      error: null
     };
   } catch (e) {
     return {
       ok: false,
+      data: null,
       error: e instanceof Error ? e.message : "Произошла неизвестная ошибка",
     };
   }
