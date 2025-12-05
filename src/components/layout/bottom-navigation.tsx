@@ -4,15 +4,13 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
-import {
-  EllipsisVerticalIcon,
-  MapIcon,
-  Settings2Icon,
-  User2Icon,
-} from "lucide-react";
+import { LogInIcon, MapIcon, Settings2Icon, User2Icon } from "lucide-react";
 import { Others } from "./others";
+import { useProfile } from "@/contexts/profile-context";
+import { Activity } from "react";
 
 export function BottomNavigation() {
+  const profile = useProfile();
   const pathname = usePathname();
 
   if (pathname.startsWith("/auth")) return null;
@@ -25,14 +23,23 @@ export function BottomNavigation() {
             <MapIcon />
           </Button>
         </Link>
-        <Link href="/profile">
+        <Activity mode={profile ? "visible" : "hidden"}>
+          <Link href="/profile">
+            <Button variant="ghost" size="icon-lg">
+              <User2Icon />
+            </Button>
+          </Link>
           <Button variant="ghost" size="icon-lg">
-            <User2Icon />
+            <Settings2Icon />
           </Button>
-        </Link>
-        <Button variant="ghost" size="icon-lg">
-          <Settings2Icon />
-        </Button>
+        </Activity>
+        <Activity mode={!profile ? "visible" : "hidden"}>
+          <Link href="/auth/login">
+            <Button variant="ghost" size="icon-lg">
+              <LogInIcon />
+            </Button>
+          </Link>
+        </Activity>
         <Others />
       </div>
     </div>

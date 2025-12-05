@@ -1,10 +1,25 @@
+import { AlertCircleIcon } from "lucide-react";
 import { BottomNavigation } from "./bottom-navigation";
 
-export function Wrapper({ children }: { children: React.ReactNode }) {
+import { getProfile } from "@/actions/auth/";
+import { ProfileProvider } from "@/contexts/profile-context";
+
+export async function Wrapper({ children }: { children: React.ReactNode }) {
+  const profile = await getProfile();
+  if (!profile.ok)
+    return (
+      <div className="flex flex-row gap-2 text-destructive">
+        <AlertCircleIcon />
+        <span>Произошла ошибка базы данных.</span>
+      </div>
+    );
+
   return (
-    <main className="min-h-screen relative max-w-xl mx-auto">
-      {children}
-      <BottomNavigation />
-    </main>
+    <ProfileProvider value={profile.data}>
+      <main className="min-h-screen relative max-w-xl mx-auto">
+        {children}
+        <BottomNavigation />
+      </main>
+    </ProfileProvider>
   );
 }
