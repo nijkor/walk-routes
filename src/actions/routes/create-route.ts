@@ -27,6 +27,7 @@ const FormSchema = z.object({
     ),
   type: z.enum(["bicycle", "pedestrian"]),
   points: z.json(),
+  city: z.string().min(2, "Название города не может быть короче 2 символов."),
 });
 
 export async function createRoute(form: unknown): Promise<Response> {
@@ -57,10 +58,7 @@ export async function createRoute(form: unknown): Promise<Response> {
     // добавляем маршрут в базу
     const { error } = await supabase.from("routes").insert({
       user_id: profile.profile_id,
-      name: validated.data.name,
-      description: validated.data.description,
-      type: validated.data.type,
-      points: validated.data.points,
+      ...validated.data,
     });
     if (error)
       throw new Error("Не удалось сохранить маршрут из-за ошибки базы данных.");

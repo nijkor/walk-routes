@@ -30,6 +30,7 @@ export function NewRouteForm() {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [type, setType] = useState<RouteType>("pedestrian");
+  const [city, setCity] = useState<string>("");
   const [points, setPoints] = useState<number[][]>([]);
 
   const [isPending, startTransition] = useTransition();
@@ -41,6 +42,7 @@ export function NewRouteForm() {
         description,
         type,
         points,
+        city
       });
 
       if (!res.ok) {
@@ -96,6 +98,10 @@ export function NewRouteForm() {
                 <FieldLabel htmlFor="type-bicycle">Велосипедный</FieldLabel>
               </Field>
             </RadioGroup>
+          </Field>
+          <Field>
+            <FieldLabel htmlFor="city">Город</FieldLabel>
+            <Input id="city" value={city} onChange={e => setCity(e.target.value)} />
           </Field>
         </FieldGroup>
       </FieldSet>
