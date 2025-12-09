@@ -1,8 +1,5 @@
-import { Button } from "@/components/ui/button";
-
 import { RoutesList, SearchDialog } from "@/components/routes-list";
-import Link from "next/link";
-import { PlusIcon } from "lucide-react";
+import { CreateRouteButton } from "@/components/new-route";
 
 export default function HomePage() {
   return (
@@ -14,15 +11,7 @@ export default function HomePage() {
 
         <div className="flex flex-row items-center gap-2">
           <SearchDialog />
-          <Link href="/profile/new">
-            <Button
-              size="icon-sm"
-              variant="outline"
-              className="hover:-translate-y-1 focus:scale-125 duration-500 rounded-full"
-            >
-              <PlusIcon />
-            </Button>
-          </Link>
+          <CreateRouteButton />
         </div>
       </div>
       <RoutesList />
