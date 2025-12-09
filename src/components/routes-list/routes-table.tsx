@@ -4,7 +4,6 @@ import {
   ItemDescription,
   ItemFooter,
   ItemGroup,
-  ItemHeader,
   ItemTitle,
 } from "@/components/ui/item";
 
@@ -13,18 +12,16 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import {
   ChevronRightCircleIcon,
-  EllipsisVerticalIcon,
-  InfoIcon,
-  MoreHorizontalIcon,
 } from "lucide-react";
 import { More } from "./more";
 
 type Props = {
-  routes: (Pick<Tables<"routes">, "name" | "route_id" | "description"> & {
-    ratings: Omit<Tables<"routes_ratings">, "route_id" | "rating_id">[];
-  } & {
-    profile: Pick<Tables<"profiles">, "full_name">;
-  })[];
+  routes: (Tables<"routes"> & {
+    history: Pick<
+      Tables<"routes_moderation_history">,
+      "happened_at" | "status"
+    >[];
+  })[]
 };
 
 export function RoutesTable({ routes }: Props) {
