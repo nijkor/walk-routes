@@ -16,7 +16,7 @@ export async function Wrapper({ children }: { children: React.ReactNode }) {
 
   return (
     <ProfileProvider value={profile.data}>
-      <main className="min-h-screen relative max-w-xl mx-auto">
+      <main className="min-h-screen relative max-w-xl mx-auto pb-16">
         {children}
         <BottomNavigation />
       </main>
