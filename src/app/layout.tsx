@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import { Toaster } from "sonner";
+import { Analytics } from "@vercel/analytics/next";
 import { Wrapper } from "@/components/layout/wrapper";
 import { ThemeProvider } from "@/contexts/theme-context";
 
@@ -36,6 +37,7 @@ export default function RootLayout({
             {children}
           </Wrapper>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
