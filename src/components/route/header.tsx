@@ -4,14 +4,14 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 
-import { CameraIcon, MapIcon } from "lucide-react";
+import { CameraIcon, ImageOffIcon, MapIcon } from "lucide-react";
 
 // Части хедера
 import { Info } from "./info";
 import { Map } from "./map";
 
 export function Header() {
-  const [showMap, setShowMap] = useState<boolean>(false);
+  const [showMap, setShowMap] = useState<boolean>(true);
 
   const toggleMap = () => setShowMap((prev) => !prev);
 
@@ -35,16 +35,19 @@ export function Header() {
         )}
       </Button>
 
-      {showMap && (
+      {showMap ? (
         <>
           <Map />
           <div className="w-full h-full flex justify-center items-center">
             <Spinner />
           </div>
         </>
+      ) : (
+        <div className="w-full h-full bg-muted flex flex-col gap-4 items-center justify-center">
+          <ImageOffIcon className="stroke-muted-foreground" size={28} />
+          <span className="text-muted-foreground text-sm">скоро здесь можно будет показывать свои изображения</span>
+        </div>
       )}
-
-      <div className="w-full h-full bg-muted" />
 
       <Info />
     </div>
