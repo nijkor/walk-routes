@@ -6,7 +6,7 @@ export default function HomePage() {
     <>
       <div className="mx-4 mt-6 flex flex-row items-center justify-between">
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight text-balance">
-          Список маршрутов
+          Недавние маршруты
         </h1>
 
         <div className="flex flex-row items-center gap-2">
