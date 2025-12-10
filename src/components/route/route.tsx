@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/empty";
 import { Separator } from "@/components/ui/separator";
 
-import { MessageCircleIcon, MessageSquareOffIcon, XIcon } from "lucide-react";
+import { MessageCircleIcon, XIcon } from "lucide-react";
 
 import { RouteProvider } from "@/contexts/route-context";
 

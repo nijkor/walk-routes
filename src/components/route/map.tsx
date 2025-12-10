@@ -13,7 +13,6 @@ import {
   EmptyDescription,
   EmptyHeader,
   EmptyMedia,
-  EmptyTitle,
 } from "../ui/empty";
 
 export function Map() {

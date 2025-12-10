@@ -34,7 +34,7 @@ import {
   StarIcon,
 } from "lucide-react";
 
-export function More({ routeId }: { routeId: string }) {
+export function More() {
   const isMobile = useIsMobile();
 
   if (isMobile) {

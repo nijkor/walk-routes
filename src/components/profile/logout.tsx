@@ -1,5 +1,6 @@
 "use client";
 import { useTransition } from "react";
+import { useRouter } from "next/navigation";
 
 import {
   AlertDialog,
@@ -17,16 +18,18 @@ import { logout } from "@/actions/auth";
 
 type Props = {
   open: boolean;
-  setOpen: (...args: any[]) => unknown;
+  setOpen: (...args: unknown[]) => unknown;
 };
 
 export function Logout({ open, setOpen }: Props) {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const handleLogout = () => {
     startTransition(async () => {
       await logout();
     });
+    router.replace('/');
   };
 
   return (

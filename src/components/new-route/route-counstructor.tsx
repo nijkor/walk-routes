@@ -1,6 +1,6 @@
 "use client";
 
-import { Activity, type Dispatch, type SetStateAction, useState } from "react";
+import { Activity, type Dispatch, type SetStateAction } from "react";
 
 // яндекс карты
 import { YMaps, Map, Polyline, Placemark } from "@iminside/react-yandex-maps";

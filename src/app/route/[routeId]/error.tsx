@@ -1,5 +1,6 @@
 "use client"; // Error boundaries must be Client Components
 
+import { Button } from "@/components/ui/button";
 import {
   Empty,
   EmptyDescription,
@@ -7,7 +8,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { AlertCircleIcon } from "lucide-react";
+import { AlertCircleIcon, IterationCcwIcon } from "lucide-react";
 import { useEffect } from "react";
 
 export default function Error({
@@ -31,6 +32,10 @@ export default function Error({
         <EmptyTitle>На странице произошла ошибка</EmptyTitle>
         <EmptyDescription>Попробуйте вернуться позднее.</EmptyDescription>
       </EmptyHeader>
+      <Button onClick={reset} variant="default">
+        <IterationCcwIcon />
+        Обновить
+      </Button>
     </Empty>
   );
 }

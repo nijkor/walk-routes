@@ -16,7 +16,7 @@ export async function logout(): Promise<Response> {
     return {
       ok: true,
     };
-  } catch (e) {
+  } catch {
     return {
       ok: false,
     };

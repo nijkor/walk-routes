@@ -23,8 +23,6 @@ import { ChevronRightIcon } from "lucide-react";
 
 import { register } from "@/actions/auth";
 
-import { toast } from "sonner";
-
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
   const [state, action, isPending] = useActionState(register, undefined);
 

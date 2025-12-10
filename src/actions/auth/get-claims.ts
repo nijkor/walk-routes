@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 type Response =
   | {
       ok: true;
-      claims: { [key: string]: any };
+      claims: { [key: string]: unknown };
     }
   | {
       ok: false;
