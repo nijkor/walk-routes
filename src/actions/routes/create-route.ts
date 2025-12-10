@@ -56,12 +56,24 @@ export async function createRoute(form: unknown): Promise<Response> {
     if (!profile?.profile_id) throw new Error("");
 
     // добавляем маршрут в базу
-    const { error } = await supabase.from("routes").insert({
-      user_id: profile.profile_id,
-      ...validated.data,
-    });
+    const { data: route, error } = await supabase
+      .from("routes")
+      .insert({
+        user_id: profile.profile_id,
+        ...validated.data,
+      })
+      .select()
+      .single();
     if (error)
       throw new Error("Не удалось сохранить маршрут из-за ошибки базы данных.");
+
+    // автоматическая модерация маршрута. из-за нехватки времени не смог админку доделать, временно так
+    // TODO: удалить это
+    await supabase.from("routes_moderation_history").insert({
+      moderator_id: profile.profile_id,
+      route_id: route.route_id,
+      status: "published",
+    });
 
     return { ok: true };
   } catch (e) {
