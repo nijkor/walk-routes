@@ -9,6 +9,7 @@ import { CameraIcon, ImageOffIcon, MapIcon } from "lucide-react";
 // Части хедера
 import { Info } from "./info";
 import { Map } from "./map";
+import { Photos } from "./photos";
 
 export function Header() {
   const [showMap, setShowMap] = useState<boolean>(true);
@@ -43,10 +44,7 @@ export function Header() {
           </div>
         </>
       ) : (
-        <div className="w-full h-full bg-muted flex flex-col gap-4 items-center justify-center">
-          <ImageOffIcon className="stroke-muted-foreground" size={28} />
-          <span className="text-muted-foreground text-sm">скоро здесь можно будет показывать свои изображения</span>
-        </div>
+        <Photos />
       )}
 
       <Info />

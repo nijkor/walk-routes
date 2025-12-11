@@ -19,27 +19,28 @@ export type Database = {
           bio: string | null
           full_name: string
           profile_id: number
-          roles: Database["public"]["Enums"]["user_roles"][]
+          roles: Database["public"]["Enums"]["user_roles"][] | null
           user_id: string
         }
         Insert: {
           bio?: string | null
           full_name: string
           profile_id?: number
-          roles: Database["public"]["Enums"]["user_roles"][]
+          roles?: Database["public"]["Enums"]["user_roles"][] | null
           user_id: string
         }
         Update: {
           bio?: string | null
           full_name?: string
           profile_id?: number
-          roles?: Database["public"]["Enums"]["user_roles"][]
+          roles?: Database["public"]["Enums"]["user_roles"][] | null
           user_id?: string
         }
         Relationships: []
       }
       routes: {
         Row: {
+          city: string
           description: string | null
           name: string
           points: Json
@@ -48,6 +49,7 @@ export type Database = {
           user_id: number
         }
         Insert: {
+          city?: string
           description?: string | null
           name: string
           points: Json
@@ -56,6 +58,7 @@ export type Database = {
           user_id: number
         }
         Update: {
+          city?: string
           description?: string | null
           name?: string
           points?: Json
@@ -66,6 +69,42 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "routes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["profile_id"]
+          },
+        ]
+      }
+      routes_favourite: {
+        Row: {
+          created_at: string
+          record_id: string
+          route_id: string
+          user_id: number
+        }
+        Insert: {
+          created_at?: string
+          record_id?: string
+          route_id: string
+          user_id: number
+        }
+        Update: {
+          created_at?: string
+          record_id?: string
+          route_id?: string
+          user_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "routes_favourite_route_id_fkey"
+            columns: ["route_id"]
+            isOneToOne: false
+            referencedRelation: "routes"
+            referencedColumns: ["route_id"]
+          },
+          {
+            foreignKeyName: "routes_favourite_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
@@ -105,6 +144,32 @@ export type Database = {
           },
           {
             foreignKeyName: "routes_moderation_history_route_id_fkey"
+            columns: ["route_id"]
+            isOneToOne: false
+            referencedRelation: "routes"
+            referencedColumns: ["route_id"]
+          },
+        ]
+      }
+      routes_photos: {
+        Row: {
+          id: string
+          path_to: string
+          route_id: string
+        }
+        Insert: {
+          id?: string
+          path_to: string
+          route_id: string
+        }
+        Update: {
+          id?: string
+          path_to?: string
+          route_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "routes_photos_route_id_fkey"
             columns: ["route_id"]
             isOneToOne: false
             referencedRelation: "routes"
@@ -161,7 +226,7 @@ export type Database = {
     Enums: {
       route_status: "uploaded" | "published" | "rejected" | "deleted"
       route_type: "bicycle" | "pedestrian"
-      user_roles: "admin"
+      user_roles: "admin" | "default"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -291,7 +356,7 @@ export const Constants = {
     Enums: {
       route_status: ["uploaded", "published", "rejected", "deleted"],
       route_type: ["bicycle", "pedestrian"],
-      user_roles: ["admin"],
+      user_roles: ["admin", "default"],
     },
   },
 } as const

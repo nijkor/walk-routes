@@ -15,7 +15,7 @@ type Response = {
   ok: boolean;
   data: RouteInfo[] | null;
   error: string | null;
-}
+};
 
 /**
  * Поиск по маршрутам в базе
@@ -38,7 +38,8 @@ export async function getRoutes(filters: Filters): Promise<Response> {
           route_id,
           rating,
           created_at
-        )
+        ),
+        photos:routes_photos!routes_photos_route_id_fkey(path_to)
     `);
 
     // фильтры
@@ -53,7 +54,7 @@ export async function getRoutes(filters: Filters): Promise<Response> {
       query = query.limit(1);
 
     const { data, error } = await query.overrideTypes<RouteInfo[]>();
-    if (error) 
+    if (error)
       throw new Error(
         "Не удалось получить информацию о маршруте из-за ошибки базы данных.",
       );
@@ -61,7 +62,7 @@ export async function getRoutes(filters: Filters): Promise<Response> {
     return {
       ok: true,
       data,
-      error: null
+      error: null,
     };
   } catch (e) {
     return {
