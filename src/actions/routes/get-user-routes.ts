@@ -14,25 +14,41 @@ export async function getUserRoutes() {
     const uid = claims.claims.sub as string;
 
     // получаем профиль
-    const { data } = await supabase
+    const { data: profile } = await supabase
       .from("profiles")
-      .select(
-        `
-        routes:routes!routes_user_id_fkey(
-            *,
-            history:routes_moderation_history!routes_moderation_history_route_id_fkey(*)
-        )
-        `,
-      )
+      .select("profile_id")
       .eq("user_id", uid)
       .single();
-    if (!data) throw new Error("Не удалось получить список маршрутов.");
+    if (!profile) throw new Error("Не удалось получить информацию о профиле.");
+
+    // получаем маршруты со статусом
+    const { data: routes, error } = await supabase
+      .from("routes")
+      .select(
+        `
+          route_id,
+          name,
+          description,
+          history:routes_moderation_history!routes_moderation_history_route_id_fkey(
+            happened_at,
+            status
+          )
+        `,
+      )
+      .eq("user_id", profile.profile_id)
+      .order("route_id", { ascending: false })
+      .order("happened_at", {
+        referencedTable: "routes_moderation_history",
+        ascending: false,
+      })
+      .limit(1, { foreignTable: "routes_moderation_history" });
+    if (!routes) throw new Error("Не удалось получить список маршрутов.");
 
     // получаем его маршруты
     return {
       ok: true,
       error: null,
-      data: data.routes,
+      data: routes,
     };
   } catch (e) {
     return {
