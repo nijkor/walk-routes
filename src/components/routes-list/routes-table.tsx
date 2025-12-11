@@ -41,7 +41,7 @@ export function RoutesTable({ routes }: Props) {
               </Link>
             </Button>
 
-            <More routeId={route.route_id} />
+            <More />
           </ItemFooter>
         </Item>
       ))}
