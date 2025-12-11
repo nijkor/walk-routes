@@ -43,9 +43,7 @@ export async function createRoute(form: unknown): Promise<Response> {
     if (!claims.ok || !claims.claims.sub)
       throw new Error("Произошла ошибка базы данных.");
 
-    const {
-      claims: { sub: uid },
-    } = claims;
+    const uid = claims.claims.sub as string;
 
     // получаем айди профиля
     const { data: profile } = await supabase

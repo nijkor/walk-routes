@@ -1,5 +1,5 @@
 "use client";
-import { useTransition } from "react";
+import { type Dispatch, type SetStateAction, useTransition } from "react";
 import { useRouter } from "next/navigation";
 
 import {
@@ -18,7 +18,7 @@ import { logout } from "@/actions/auth";
 
 type Props = {
   open: boolean;
-  setOpen: (...args: unknown[]) => unknown;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export function Logout({ open, setOpen }: Props) {

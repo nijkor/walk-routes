@@ -104,7 +104,7 @@ export function Search() {
           </Link>
         </Button>
 
-        <More routeId={route.route_id} />
+        <More />
       </ItemFooter>
     </Item>
   );

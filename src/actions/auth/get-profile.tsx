@@ -25,7 +25,7 @@ export async function getProfile(): Promise<Response> {
       };
     }
 
-    const uid = res.claims.sub;
+    const uid = res.claims.sub as string;
 
     // получаем его роли
     const { data, error } = await supabase

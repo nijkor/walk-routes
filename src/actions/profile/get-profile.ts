@@ -20,7 +20,7 @@ export async function getProfile(): Promise<Response> {
     const claims = await getClaims();
     if (!claims.ok) throw new Error(claims.error);
 
-    const uid = claims.claims.sub;
+    const uid = claims.claims.sub as string;
 
     const supabase = await createClient();
 
