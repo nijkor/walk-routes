@@ -29,7 +29,7 @@ export function BottomNavigation() {
               <User2Icon />
             </Button>
           </Link>
-          <Button variant="ghost" size="icon-lg">
+          <Button disabled variant="ghost" size="icon-lg">
             <Settings2Icon />
           </Button>
         </Activity>

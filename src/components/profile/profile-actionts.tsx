@@ -25,7 +25,7 @@ export function ProfileActions() {
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => {}} className="pr-10">
+          <DropdownMenuItem disabled onClick={() => {}} className="pr-10">
             <PenIcon />
             Редактировать
           </DropdownMenuItem>
