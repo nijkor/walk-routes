@@ -88,7 +88,7 @@ export async function MyRoutes() {
           >
             <ItemFooter>
               <Button asChild>
-                <Link href={`/routes/${route.route_id}`}>
+                <Link href={`/route/${route.route_id}`}>
                   Открыть
                   <ChevronRightCircleIcon />
                 </Link>
