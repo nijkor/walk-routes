@@ -18,6 +18,7 @@ import {
 import { ImageOffIcon } from "lucide-react";
 
 import { useRoute } from "@/contexts/route-context";
+import Image from "next/image";
 
 export function Photos() {
   const { photos, name } = useRoute();
@@ -36,19 +37,22 @@ export function Photos() {
     );
 
   return (
-    <Carousel className="rounded-3xl relative w-full h-full">
+    <Carousel className="bg-muted/30 w-full h-full rounded-3xl">
       <CarouselContent className="h-full">
-        {photos.map((photo, index) => (
-          <CarouselItem className="h-full w-full" key={index}>
-            <div className="relative h-full w-full overflow-hidden rounded-3xl">
-              <img
-                alt={`${name}. Фото ${index + 1}`}
-                src={photo.path_to}
-                className="h-full w-full object-cover"
-                loading="lazy"
-                draggable={false}
-              />
-            </div>
+        {photos.map((photo, key, photos) => (
+          <CarouselItem key={key} className="h-full w-full relative">
+            <Image
+              src={photo.path_to}
+              alt={`${name} — фото ${key + 1} из ${photos.length}`}
+              fill
+              className="w-full h-full object-center object-contain"
+            />
+            <Image
+              src={photo.path_to}
+              alt={`${name} — фото ${key + 1} из ${photos.length}`}
+              fill
+              className="-z-5 w-full h-full object-center object-cover blur-3xl"
+            />
           </CarouselItem>
         ))}
       </CarouselContent>
