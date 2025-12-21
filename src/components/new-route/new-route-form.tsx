@@ -118,7 +118,7 @@ export function NewRouteForm() {
             сложилось впечатление о маршруте, прежде чем они начнут его прохождение.
           </FieldDescription>
 
-          <Photos />
+          <Photos photos={photos} setPhotos={setPhotos} />
         </FieldSet>
       </FieldSet>
 
