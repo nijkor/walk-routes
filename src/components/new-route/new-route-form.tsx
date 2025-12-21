@@ -82,9 +82,8 @@ export function NewRouteForm() {
             <Textarea
               id="route-description"
               onChange={(e) => setDescription(e.target.value)}
-            >
-              {description}
-            </Textarea>
+              value={description}
+            />
           </Field>
           <Field>
             <FieldLabel>Тип маршрута</FieldLabel>
