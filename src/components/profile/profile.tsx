@@ -19,7 +19,7 @@ export async function Profile() {
 
   return (
     <>
-      <Header profile={res.data} />
+      <Header profile={res.data!} />
 
       <Tabs className="px-2" defaultValue="my_routes">
         <TabsList>
