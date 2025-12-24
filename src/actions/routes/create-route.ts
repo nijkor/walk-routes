@@ -1,16 +1,12 @@
 "use server";
 import { createClient } from "@/lib/supabase/server";
 import z from "zod";
-import { getClaims } from "../auth";
+import { getProfile } from "@/actions/profile";
 
-type Response =
-  | {
-      ok: true;
-    }
-  | {
-      ok: false;
-      error: string;
-    };
+type Response = {
+  ok: boolean;
+  error: string | null;
+};
 
 const FormSchema = z.object({
   name: z
@@ -28,7 +24,13 @@ const FormSchema = z.object({
   type: z.enum(["bicycle", "pedestrian"]),
   points: z.json(),
   city: z.string().min(2, "Название города не может быть короче 2 символов."),
+  photos: z.array(z.file()),
 });
+
+// удаляет из имени файла неподходящие символы и обрезает до 120 символов
+function sanitizeFilename(name: string) {
+  return name.replace(/[^\w.\-]+/g, "_").slice(0, 120);
+}
 
 export async function createRoute(form: unknown): Promise<Response> {
   try {
@@ -38,42 +40,74 @@ export async function createRoute(form: unknown): Promise<Response> {
 
     const supabase = await createClient();
 
-    // получаем айди пользователя
-    const claims = await getClaims();
-    if (!claims.ok || !claims.claims.sub)
-      throw new Error("Произошла ошибка базы данных.");
+    // получаем айди профиля пользователя
+    const { ok, data: profile } = await getProfile();
+    if (!ok || !profile)
+      throw new Error("Не удалось получить информацию о пользователе.");
 
-    const uid = claims.claims.sub as string;
-
-    // получаем айди профиля
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("profile_id")
-      .eq("user_id", uid)
-      .maybeSingle();
-    if (!profile?.profile_id) throw new Error("");
+    const profileId = profile.profile_id;
+    const { photos, ...routeData } = validated.data;
 
     // добавляем маршрут в базу
-    const { data: route, error } = await supabase
+    const { data: route, error: routeError } = await supabase
       .from("routes")
       .insert({
-        user_id: profile.profile_id,
-        ...validated.data,
+        user_id: profileId,
+        ...routeData,
       })
       .select()
       .single();
-    if (error)
+    if (routeError || !route)
       throw new Error("Не удалось сохранить маршрут из-за ошибки базы данных.");
 
-    // автоматическая модерация маршрута. из-за нехватки времени не смог админку доделать, временно так
-    // TODO: удалить это
+    // загружаем фото в хранилище и сохраняем пути в базу
+    if (photos.length > 0) {
+      const uploadedPaths: string[] = [];
+
+      for (const file of photos) {
+        const safeName = sanitizeFilename(file.name || "photo");
+        const path = `routes/${route.route_id}/${crypto.randomUUID()}_${safeName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from("photos")
+          .upload(path, file, {
+            contentType: file.type || "application/octet-stream",
+            upsert: false,
+          });
+
+        if (uploadError) {
+          throw new Error("Не удалось загрузить фотографии в хранилище.");
+        }
+
+        uploadedPaths.push(path);
+      }
+
+      const { error: photosInsertError } = await supabase
+        .from("routes_photos")
+        .insert(
+          uploadedPaths.map((p) => ({
+            route_id: route.route_id,
+            path_to: p,
+          })),
+        );
+
+      if (photosInsertError) {
+        // (по желанию) можно удалить загруженные файлы, если запись в БД упала
+        throw new Error("Не удалось сохранить информацию о фотографиях.");
+      }
+    }
+
+    // временная автоматическая модерация
     await supabase.from("routes_moderation_history").insert({
       moderator_id: profile.profile_id,
       route_id: route.route_id,
       status: "published",
     });
 
-    return { ok: true };
+    return {
+      ok: true,
+      error: null,
+    };
   } catch (e) {
     return {
       ok: false,

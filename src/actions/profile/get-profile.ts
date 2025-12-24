@@ -4,15 +4,11 @@ import { getClaims } from "@/actions/auth";
 
 import type { Tables } from "@/types/database";
 
-type Response =
-  | {
-      ok: true;
-      data: Tables<"profiles">;
-    }
-  | {
-      ok: false;
-      error: string;
-    };
+type Response = {
+  ok: boolean;
+  data: Tables<"profiles"> | null;
+  error: string | null;
+};
 
 export async function getProfile(): Promise<Response> {
   try {
@@ -36,11 +32,13 @@ export async function getProfile(): Promise<Response> {
     return {
       ok: true,
       data,
+      error: null,
     };
   } catch (e) {
     console.log(e);
     return {
       ok: false,
+      data: null,
       error: e instanceof Error ? e.message : "",
     };
   }

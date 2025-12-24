@@ -17,11 +17,13 @@ import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
 
+import { SaveIcon } from "lucide-react";
+
 // компоненты формы
 import { RouteConstructor } from "./route-counstructor";
+import { Photos } from "./photos";
 
 import { createRoute } from "@/actions/routes";
-import { SaveIcon } from "lucide-react";
 
 type RouteType = "pedestrian" | "bicycle";
 
@@ -32,6 +34,7 @@ export function NewRouteForm() {
   const [type, setType] = useState<RouteType>("pedestrian");
   const [city, setCity] = useState<string>("");
   const [points, setPoints] = useState<number[][]>([]);
+  const [photos, setPhotos] = useState<File[]>([])
 
   const [isPending, startTransition] = useTransition();
 
@@ -42,7 +45,8 @@ export function NewRouteForm() {
         description,
         type,
         points,
-        city
+        city,
+        photos
       });
 
       if (!res.ok) {
@@ -103,6 +107,20 @@ export function NewRouteForm() {
             <Input id="city" value={city} onChange={e => setCity(e.target.value)} />
           </Field>
         </FieldGroup>
+      </FieldSet>
+
+      <FieldSeparator />
+
+      <FieldSet>
+        <FieldSet>
+          <FieldLegend>Фотографии</FieldLegend>
+          <FieldDescription>
+            Вы можете добавить несколько фотографий, чтобы у пользователей
+            сложилось впечатление о маршруте, прежде чем они начнут его прохождение.
+          </FieldDescription>
+
+          <Photos photos={photos} setPhotos={setPhotos} />
+        </FieldSet>
       </FieldSet>
 
       <FieldSeparator />
