@@ -45,7 +45,8 @@ export function NewRouteForm() {
         description,
         type,
         points,
-        city
+        city,
+        photos
       });
 
       if (!res.ok) {
