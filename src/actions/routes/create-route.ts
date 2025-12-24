@@ -62,7 +62,7 @@ export async function createRoute(form: unknown): Promise<Response> {
 
     // загружаем фото в хранилище и сохраняем пути в базу
     if (photos.length > 0) {
-      const uploadedPaths: string[] = [];
+      const publicUrls: string[] = [];
 
       for (const file of photos) {
         const safeName = sanitizeFilename(file.name || "photo");
@@ -79,30 +79,29 @@ export async function createRoute(form: unknown): Promise<Response> {
           throw new Error("Не удалось загрузить фотографии в хранилище.");
         }
 
-        uploadedPaths.push(path);
+        const { data } = supabase.storage.from("photos").getPublicUrl(path);
+        if (!data?.publicUrl) {
+          throw new Error(
+            "Не удалось получить публичную ссылку на фотографию.",
+          );
+        }
+
+        publicUrls.push(data.publicUrl);
       }
 
       const { error: photosInsertError } = await supabase
         .from("routes_photos")
         .insert(
-          uploadedPaths.map((p) => ({
+          publicUrls.map((url) => ({
             route_id: route.route_id,
-            path_to: p,
+            path_to: url,
           })),
         );
 
       if (photosInsertError) {
-        // (по желанию) можно удалить загруженные файлы, если запись в БД упала
         throw new Error("Не удалось сохранить информацию о фотографиях.");
       }
     }
-
-    // временная автоматическая модерация
-    await supabase.from("routes_moderation_history").insert({
-      moderator_id: profile.profile_id,
-      route_id: route.route_id,
-      status: "published",
-    });
 
     return {
       ok: true,
